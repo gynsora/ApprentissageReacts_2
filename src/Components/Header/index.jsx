@@ -4,7 +4,7 @@ function Header() {
     return (
         <nav id="sidebar">
           <NavLink to="/">Accueil</NavLink>
-          <NavLink to="/survey">Questionnaire</NavLink>
+          <NavLink to="/survey/1">Questionnaire</NavLink>
         </nav>
     )
 }
