@@ -6,6 +6,7 @@ function Survey() {
   const questionNumberInt = parseInt(questionNumber)
   const prevQuestionNumber = questionNumberInt === 1 ? 1 : questionNumberInt - 1
   const nextQuestionNumber = questionNumberInt + 1
+  
   return (
     <div>
       <h1>Questionnaire 🧮</h1>
@@ -22,6 +23,7 @@ function Survey() {
   )
   // trouvé un moyen de rediriger l'utilisateur lorsqu'il saisit une url avec un nombre invalide
   // exemple: /survey/164
+
 }
 
 export default Survey
