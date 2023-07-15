@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react'
 import Card from '../../Components/Card'
 import styled from 'styled-components'
 import colors from '../../Utils/Styles/colors'
+import { Loader } from '../../Utils/Styles/Atoms'
 
 const CardsContainer = styled.div`
   display: grid;
@@ -26,39 +28,57 @@ const PageSubtitle = styled.h2`
   padding-bottom: 30px;
 `
 
-const freelanceProfiles = [
-  {
-    name: 'Jane Doe',
-    jobTitle: 'Devops',
-  },
-  {
-    name: 'John Doe',
-    jobTitle: 'Developpeur frontend',
-  },
-  {
-    name: 'Nadjim DJAMANI',
-    jobTitle: 'Développeur Fullstack',
-    picture: 'gynsora.jpg'
-  },
-]
+
 
 function Freelances() {
+  // ici pour nommée les constante d'un usestate il faut faire attention au type données que l'ont manipule
+  const [freelancersList, setFreelancesList] = useState([])
+  const [isDataLoading, setDataLoading] = useState(false)
+  const [error,setError] = useState(false)
+
+  async function fetchFreelances() {
+    setDataLoading(true)
+    try {
+      const response = await fetch(`http://localhost:8000/freelances`)
+      const { freelancersList } = await response.json()
+      setFreelancesList(freelancersList)
+    } catch (err) {
+      console.log('===== error =====', err)
+      setError(true)
+    } finally {
+      setDataLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchFreelances()
+  }, [])
+
+  if (error) {
+    return <span>Oups il y a eu un problème</span>
+  }
+
   return (
     <div>
       <PageTitle>Trouvez votre prestataire</PageTitle>
       <PageSubtitle>
         Chez Shiny nous réunissons les meilleurs profils pour vous.
       </PageSubtitle>
-      <CardsContainer>
-        {freelanceProfiles.map((profile, index) => (
-          <Card
-            key={`${profile.name}-${index}`}
-            label={profile.jobTitle}
-            title={profile.name}
-            picture={profile.picture}
-          />
-        ))}
-      </CardsContainer>
+      {isDataLoading ? (
+        <Loader />
+      ) : (
+        <CardsContainer>
+          {freelancersList.map((profile,index) => (
+            <Card
+              key={`${profile.name}`}
+              label={profile.jobTitle}
+              title={profile.name}
+              picture={profile.picture}
+            />
+          ))}
+        </CardsContainer>
+      )}
+
     </div>
   )
 }
