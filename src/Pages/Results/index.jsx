@@ -51,8 +51,8 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
 `
-
-function formatFetchParams(answers) {
+// fonction pour formater le test afin de correspondre au format URL de l'API
+export function formatFetchParams(answers) {
   const answerNumbers = Object.keys(answers)
 
   return answerNumbers.reduce((previousParams, answerNumber, index) => {
@@ -62,10 +62,19 @@ function formatFetchParams(answers) {
   }, '')
 }
 
+// fonction pour formatter les liste de Job données après le résultat du questionnaire, cette fonction est utilisé dans  </ResultsTitle>    
+export function formatJobList(title, listLength, index) {
+  if (index === listLength - 1) {
+      return title
+  }
+  return `${title},`
+}
+
 function Results() {
   const { theme } = useContext(ThemeContext)
   const { answers } = useContext(SurveyContext)
   const fetchParams = formatFetchParams(answers)
+
 
   const { data, isLoading, error } = useFetch(
     `http://localhost:8000/results?${fetchParams}`
@@ -84,18 +93,19 @@ function Results() {
   ) : (
     <ResultsContainer theme={theme}>
       <ResultsTitle theme={theme}>
-        Les compétences dont vous avez besoin :
-        {resultsData &&
-          resultsData.map((result, index) => (
-            <JobTitle
-              key={`result-title-${index}-${result.title}`}
-              theme={theme}
-            >
-              {result.title}
-              {index === resultsData.length - 1 ? '' : ','}
-            </JobTitle>
+          Les compétences dont vous avez besoin :
+          {resultsData &&
+              resultsData.map((result, index) => (
+                  <JobTitle
+                      key={`result-title-${index}-${result.title}`}
+                      theme={theme}
+                  >
+                      {formatJobList(result.title, resultsData.length, index)}
+                  </JobTitle>
+
           ))}
       </ResultsTitle>
+      
       <StyledLink $isFullLink to="/freelances">
         Découvrez nos profils
       </StyledLink>

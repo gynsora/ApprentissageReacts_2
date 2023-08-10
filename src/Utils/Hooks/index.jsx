@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect,useContext  } from 'react'
+import { ThemeContext } from  '../Context'
 
 // on crée un hook pour récuperer des donnée présente dans l'url d'un API
 // on renvoi la data que le lien contient et une variable isLoading pour savoir si les donnée sont en train de charger
@@ -48,3 +49,8 @@ export function useFetch(url) {
     return { isLoading, data, error }
     
 }
+
+export function useTheme() {
+    const { theme, toggleTheme } = useContext(ThemeContext)
+    return { theme, toggleTheme }
+  }

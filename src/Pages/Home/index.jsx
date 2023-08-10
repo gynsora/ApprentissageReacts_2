@@ -37,6 +37,7 @@ const Illustration = styled.img`
   flex: 1;
 `
 
+
 function Home() {
   return (
     <HomeWrapper>

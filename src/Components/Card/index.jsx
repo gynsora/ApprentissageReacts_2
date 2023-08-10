@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import DefaultPicture from '../../Assets/profile.png'
 import styled from 'styled-components'
 import colors from '../../Utils/Styles/colors'
+import { useState } from 'react'
+import { useTheme } from '../../Utils/Hooks'
 
 // style css du span pour le label dans le composant Card
 const CardLabel = styled.span`
@@ -41,13 +43,19 @@ const CardWrapper = styled.div`
   }
 `
 function Card({ label, title, picture }) {
-    return (
-        <CardWrapper>
-            <CardLabel>{label}</CardLabel>
-            <CardImage src={picture} alt={`freelance - ${title}` }/>
-            <CardTitle>{title}</CardTitle>
-        </CardWrapper>
-    )
+  const { theme } = useTheme()
+  const [isFavorite, setIsFavorite] = useState(false)
+  const star = isFavorite ? '⭐️' : ''
+
+  return (
+    <CardWrapper theme={theme} onClick={() => setIsFavorite(!isFavorite)}>
+      <CardLabel theme={theme}>{label}</CardLabel>
+      <CardImage src={picture} alt="freelance" />
+      <CardTitle theme={theme}>
+        {star} {title} {star}
+      </CardTitle>
+    </CardWrapper>
+  )
 }
 
 //liste les prop types du composant Card
