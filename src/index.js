@@ -11,6 +11,7 @@ import Results from './Pages/Results'
 import Freelances from './Pages/Freelances'
 import GlobalStyle from './Utils/Styles/GlobalStyle'
 import { ThemeProvider, SurveyProvider } from './Utils/Context'
+import Profile from './Pages/Profile'
 
 
 
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route path="/survey/:questionNumber" element={<Survey />} />
               <Route path="/results" element={<Results />} />
               <Route path="/freelances" element={<Freelances />} />
+              <Route path="/profile/:id" element={<Profile />} />
               <Route path="*" element={<Error />} />
             </Routes>
             <Footer />

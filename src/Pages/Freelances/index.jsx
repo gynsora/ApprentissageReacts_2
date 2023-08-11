@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { ThemeContext } from '../../Utils/Context'
+import { Link } from 'react-router-dom'
 import Card from '../../Components/Card'
 import styled from 'styled-components'
 import colors from '../../Utils/Styles/colors'
@@ -64,12 +65,14 @@ function Freelances() {
       ) : (
         <CardsContainer theme={theme}>
           {freelancersList.map((profile,index) => (
-            <Card
-              key={`${profile.name}`}
-              label={profile.jobTitle}
-              title={profile.name}
-              picture={profile.picture}
-            />
+            <Link key={`freelance-${profile.id}`} to={`/profile/${profile.id}`}>
+              <Card
+                key={`${profile.name}`}
+                label={profile.jobTitle}
+                title={profile.name}
+                picture={profile.picture}
+              />
+            </Link>
           ))}
         </CardsContainer>
       )}
