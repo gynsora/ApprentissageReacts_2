@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../Utils/Styles/colors'
 import { Loader } from '../../Utils/Styles/Atoms'
-import { SurveyContext } from '../../Utils/Context'
+import { SurveyContext , ThemeContext} from '../../Utils/Context'
 import { useFetch } from '../../Utils/Hooks'
 
 const SurveyContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
 `
 
 const QuestionTitle = styled.h2`
@@ -25,7 +26,7 @@ const QuestionContent = styled.span`
 const LinkWrapper = styled.div`
   padding-top: 30px;
   & a {
-    color: black;
+    color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
   }
   & a:first-of-type {
     margin-right: 20px;
@@ -64,6 +65,7 @@ function Survey() {
   const nextQuestionNumber = questionNumberInt + 1
 
   const { saveAnswers, answers } = useContext(SurveyContext)
+  const { theme } = useContext(ThemeContext)
 
   function saveReply(answer) {
     saveAnswers({ [questionNumber]: answer })
@@ -77,7 +79,7 @@ function Survey() {
   }
 
   return (
-    <SurveyContainer>
+    <SurveyContainer theme={theme}>
       <QuestionTitle>Question {questionNumber}</QuestionTitle>
       {isLoading ? (
         <Loader />
@@ -100,7 +102,7 @@ function Survey() {
           Non
         </ReplyBox>
       </ReplyWrapper>
-      <LinkWrapper>
+      <LinkWrapper theme={theme}>
         <Link to={`/survey/${prevQuestionNumber}`}>Précédent</Link>
         {surveyData && surveyData[questionNumberInt + 1] ? (
           <Link to={`/survey/${nextQuestionNumber}`}>Suivant</Link>
